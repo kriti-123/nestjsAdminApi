@@ -10,8 +10,9 @@
 
 import { Module } from '@nestjs/common';
 import { authModule } from './auth/auth.module';
+import { adminModule } from './admin/admin.module';
 @Module({
-  imports: [authModule],
+  imports: [authModule, adminModule],
   exports: [],
   providers: [],
 })

@@ -8,6 +8,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Admin, AdminSchema } from './Entities/admin.entity';
+import { adminController } from './admin.controller';
 
 // @Module({
 //   imports: [
@@ -20,8 +21,9 @@ import { Admin, AdminSchema } from './Entities/admin.entity';
 // export class adminModule {}
 @Module({
   imports: [
-    // MongooseModule.forFeature([{ name: Admin.name, schema: AdminSchema }]),
+    MongooseModule.forFeature([{ name: Admin.name, schema: AdminSchema }]),
   ],
+  controllers: [adminController],
   exports: [adminModule],
 })
 export class adminModule {}
