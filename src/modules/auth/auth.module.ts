@@ -10,8 +10,9 @@ import { jwtConstants } from './constant';
   imports: [
     MongooseModule.forFeature([{ name: Admin.name, schema: AdminSchema }]),
     JwtModule.register({
+      global: true,
       secret: jwtConstants.secret,
-      signOptions: { expiresIn: '120s' },
+      signOptions: { expiresIn: '60s' },
     }),
   ],
   controllers: [authController],
