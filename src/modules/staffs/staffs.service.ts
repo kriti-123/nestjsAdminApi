@@ -1,26 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { CreateStaffDto } from './dto/create-staff.dto';
 import { UpdateStaffDto } from './dto/update-staff.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Staff } from './entities/staff.entity';
 
 @Injectable()
 export class StaffsService {
-  create(createStaffDto: CreateStaffDto) {
-    return 'This action adds a new staff';
-  }
-
-  findAll() {
-    return `This action returns all staffs`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} staff`;
-  }
-
-  update(id: number, updateStaffDto: UpdateStaffDto) {
-    return `This action updates a #${id} staff`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} staff`;
-  }
+  constructor(@InjectModel(Staff.name) private staffModel: Staff) {}
+  async getProfile(id: string) {}
+  async updateProfile(id: string, updateDto: UpdateStaffDto) {}
 }
