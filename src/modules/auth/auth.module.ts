@@ -6,11 +6,13 @@ import { Admin, AdminSchema } from '../admin/Entities/admin.entity';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './constant';
 import { Staff, staffSchema } from '../staffs/entities/staff.entity';
+import { Patient, PatientSchema } from '../patient/Entities/patient.entity';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Admin.name, schema: AdminSchema }]),
     MongooseModule.forFeature([{ name: Staff.name, schema: staffSchema }]),
+    MongooseModule.forFeature([{ name: Patient.name, schema: PatientSchema }]),
     JwtModule.register({
       global: true,
       secret: jwtConstants.secret,

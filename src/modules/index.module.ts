@@ -12,8 +12,9 @@ import { Module } from '@nestjs/common';
 import { authModule } from './auth/auth.module';
 import { adminModule } from './admin/admin.module';
 import { StaffsModule } from './staffs/staffs.module';
+import { patientModule } from './patient/patient.module';
 @Module({
-  imports: [authModule, adminModule, StaffsModule],
+  imports: [authModule, adminModule, StaffsModule, patientModule],
   exports: [],
   providers: [],
 })

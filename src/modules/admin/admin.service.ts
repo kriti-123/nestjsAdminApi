@@ -20,6 +20,7 @@ export class adminService {
       throw new HttpException('Invalid admin ID', HttpStatus.BAD_REQUEST);
     }
   }
+  //------staff Operation API------------
   async getstaffProfile(id: string) {
     try {
       const staff = await this.staffModel.findById(id);

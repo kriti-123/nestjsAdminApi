@@ -15,12 +15,16 @@ import { JwtService } from '@nestjs/jwt';
 import { Staff } from '../staffs/entities/staff.entity';
 import { CreateStaffDto } from '../staffs/dto/create-staff.dto';
 import { loginStaffdto } from '../staffs/dto/login-staff.dto';
+import { CreatePatientDto } from '../patient/DTO/createPatient.dto';
+import { Patient } from '../patient/Entities/patient.entity';
+import { PatientLogin } from '../patient/DTO/login.dto';
 
 @Injectable()
 export class authService {
   constructor(
     @InjectModel(Admin.name) private adminModel: Model<Admin>,
     @InjectModel(Staff.name) private staffModel: Model<Staff>,
+    @InjectModel(Patient.name) private patientModel: Model<Patient>,
     private Jwtservice: JwtService,
   ) {}
   async signup(createDto: CreateAdminDto) {
@@ -85,6 +89,48 @@ export class authService {
         return new UnauthorizedException('username and pasword doesnot match');
       }
       const payload = loginStaffdto;
+      return {
+        access_token: await this.Jwtservice.signAsync(payload),
+      };
+    } catch (err) {}
+  }
+  //--------patient auth-------
+  async patientSignup(CreatePatientDto: CreatePatientDto) {
+    try {
+      const emailExist = await this.patientModel.findOne({
+        email: CreatePatientDto.email,
+      });
+      const doctorID = CreatePatientDto.assignedDoctor;
+      const checkAvali = await this.staffModel.findById(doctorID);
+      if (!checkAvali.isActive) {
+        return new ConflictException(
+          'Doctor is not available,please take appointment with another doctor',
+        );
+      }
+      const numberExist = await this.patientModel.findOne({
+        contactNumber: CreatePatientDto.contactNumber,
+      });
+      if (emailExist || numberExist) {
+        return new ConflictException('email or contact number already exist');
+      }
+      const patient = await this.patientModel.create(CreatePatientDto);
+      if (!patient)
+        return new InternalServerErrorException("can't create patient");
+      return patient;
+    } catch (err) {
+      throw new Error(err.message);
+    }
+  }
+  async patientLogin(loginDto: PatientLogin) {
+    try {
+      const patient = await this.patientModel.findOne({
+        userName: loginDto.userName,
+        password: loginDto.password,
+      });
+      if (!patient) {
+        return new UnauthorizedException('username and pasword doesnot match');
+      }
+      const payload = loginDto;
       return {
         access_token: await this.Jwtservice.signAsync(payload),
       };

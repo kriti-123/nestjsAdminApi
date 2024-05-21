@@ -6,7 +6,7 @@ import { Staff } from './entities/staff.entity';
 
 @Injectable()
 export class StaffsService {
-  constructor(@InjectModel(Staff.name) private staffModel: Staff) {}
-  async getProfile(id: string) {}
-  async updateProfile(id: string, updateDto: UpdateStaffDto) {}
+  // constructor(@InjectModel(Staff.name) private staffModel: Staff) {}
+  // async getProfile(id: string) {}
+  // async updateProfile(id: string, updateDto: UpdateStaffDto) {}
 }
