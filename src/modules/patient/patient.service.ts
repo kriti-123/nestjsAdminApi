@@ -27,11 +27,11 @@ export class patientService {
       return appointmentId;
     } catch (err) {}
   }
-  async updateAppointment(id: string, doctor: string) {
-    try {
-      const appointment = await this.appointmentModel.findByIdAndUpdate(id, {
-        doctor: doctor,
-      });
-    } catch (err) {}
-  }
+  // async updateAppointment(id: string, data: object) {
+  //   try {
+  //     const appointment = await this.appointmentModel.findByIdAndUpdate(id, {
+  //       doctor: data.doctor,
+  //     });
+  //   } catch (err) {}
+  // }
 }

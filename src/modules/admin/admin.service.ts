@@ -3,11 +3,13 @@ import { Admin } from './Entities/admin.entity';
 import { Model } from 'mongoose';
 import { Staff, Role } from '../staffs/entities/staff.entity';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Appointment } from '../patient/Entities/appointment.entity';
 @Injectable()
 export class adminService {
   constructor(
     @InjectModel(Admin.name) private adminModel: Model<Admin>,
     @InjectModel(Staff.name) private staffModel: Model<Staff>,
+    @InjectModel(Appointment.name) private appointmentModel: Model<Appointment>,
   ) {}
   async getAdminProfile(id: string) {
     try {
@@ -98,6 +100,42 @@ export class adminService {
         'Error toggling staff activation status',
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
+    }
+  }
+  //------appointment api-------
+  async getAppointment(id: string) {
+    try {
+      const appointment = await this.appointmentModel.findById(id);
+      if (!appointment) {
+        throw new HttpException('appointment not found', HttpStatus.NOT_FOUND);
+      }
+      return appointment;
+    } catch (error) {
+      throw new HttpException('Invalid appointment ID', HttpStatus.BAD_REQUEST);
+    }
+  }
+  async getAllAppointment() {
+    try {
+      const appointment = await this.appointmentModel
+        .find()
+        // .populate('doctor', 'firstName lastName')
+        // .populate('patient', 'firstName lastName')
+        .select('doctor patient');
+      if (!appointment) {
+        throw new HttpException('appointment not found', HttpStatus.NOT_FOUND);
+      }
+      return appointment;
+    } catch (error) {
+      throw new HttpException('Invalid response', HttpStatus.BAD_REQUEST);
+    }
+  }
+  async cancelAppointment(id: string) {
+    try {
+      const appointment = await this.appointmentModel.findByIdAndDelete(id);
+      if (!appointment)
+        throw new HttpException('unable to delete', HttpStatus.BAD_REQUEST);
+    } catch (err) {
+      throw new HttpException('Invalid response', HttpStatus.BAD_REQUEST);
     }
   }
 }

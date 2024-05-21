@@ -24,8 +24,8 @@ export class patientController {
   async cancel(@Param('id') id: string) {
     return this.patientService.cancelAppointment(id);
   }
-  @Put('appointment/update')
-  async updateAppointment(@Param('id') id: string, @Body() doctor: string) {
-    return this.patientService.updateAppointment(id, doctor);
-  }
+  // @Put('appointment/update')
+  // async updateAppointment(@Param('id') id: string, @Body() data) {
+  //   return this.patientService.updateAppointment(id, data);
+  // }
 }
