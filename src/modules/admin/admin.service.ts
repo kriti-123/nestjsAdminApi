@@ -134,6 +134,7 @@ export class adminService {
       const appointment = await this.appointmentModel.findByIdAndDelete(id);
       if (!appointment)
         throw new HttpException('unable to delete', HttpStatus.BAD_REQUEST);
+      return appointment;
     } catch (err) {
       throw new HttpException('Invalid response', HttpStatus.BAD_REQUEST);
     }

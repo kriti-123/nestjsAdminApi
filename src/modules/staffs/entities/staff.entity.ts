@@ -48,8 +48,8 @@ export class Staff extends Document {
   @Prop({ default: null })
   profilePicture?: string;
 
-  @Prop({ type: [String], default: [] })
-  roles: Role[];
+  @Prop({ enum: Role })
+  roles: Role;
 
   @Prop({ type: Address, required: true })
   address: Address;

@@ -50,9 +50,8 @@ export class CreateStaffDto {
   @IsString()
   profilePicture?: string;
 
-  @IsArray()
-  @IsEnum(Role, { each: true })
-  roles: Role[];
+  @IsEnum(Role)
+  roles: Role;
 
   @ValidateNested()
   @Type(() => Address)
