@@ -1,3 +1,4 @@
+import * as bcrypt from 'bcrypt';
 import {
   Body,
   ConflictException,
@@ -38,6 +39,9 @@ export class authService {
       if (emailExist || numberExist) {
         return new ConflictException('email or contact number already exist');
       }
+      const saltVal = 10;
+      const hashedPass = await bcrypt.hash(createDto.password, saltVal);
+      createDto.password = hashedPass;
       const admin = await this.adminModel.create(createDto);
       if (!admin) return new InternalServerErrorException("can't create admin");
       return admin;
