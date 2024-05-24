@@ -53,10 +53,17 @@ export class authService {
     try {
       const admin = await this.adminModel.findOne({
         userName: loginDto.userName,
-        password: loginDto.password,
+        // password: loginDto.password,
       });
       if (!admin) {
         return new UnauthorizedException('username and pasword doesnot match');
+      }
+      const isValidPassword = await bcrypt.compare(
+        loginDto.password,
+        admin.password,
+      );
+      if (!isValidPassword) {
+        return new UnauthorizedException('username and password doesnot match');
       }
       const payload = loginDto;
       return {
