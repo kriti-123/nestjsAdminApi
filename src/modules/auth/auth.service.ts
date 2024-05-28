@@ -28,83 +28,39 @@ export class authService {
     @InjectModel(Patient.name) private patientModel: Model<Patient>,
     private Jwtservice: JwtService,
   ) {}
-  async signup(createDto: CreateAdminDto) {
-    try {
-      const emailExist = await this.adminModel.findOne({
-        email: createDto.email,
-      });
-      const numberExist = await this.adminModel.findOne({
-        contactNumber: createDto.contactNumber,
-      });
-      if (emailExist || numberExist) {
-        return new ConflictException('email or contact number already exist');
-      }
-      const saltVal = 10;
-      const hashedPass = await bcrypt.hash(createDto.password, saltVal);
-      createDto.password = hashedPass;
-      const admin = await this.adminModel.create(createDto);
-      if (!admin) return new InternalServerErrorException("can't create admin");
-      return admin;
-    } catch (err) {
-      throw new Error(err.message);
-    }
-  }
-  async signin(loginDto: AdminLogin) {
-    try {
-      const admin = await this.adminModel.findOne({
-        userName: loginDto.userName,
-        // password: loginDto.password,
-      });
-      if (!admin) {
-        return new UnauthorizedException('username and pasword doesnot match');
-      }
-      const isValidPassword = await bcrypt.compare(
-        loginDto.password,
-        admin.password,
-      );
-      if (!isValidPassword) {
-        return new UnauthorizedException('username and password doesnot match');
-      }
-      const payload = loginDto;
-      return {
-        access_token: await this.Jwtservice.signAsync(payload),
-      };
-    } catch (err) {}
-  }
-  //-----staff service start-----
-  async staffSignup(CreateStaffDto: CreateStaffDto) {
-    try {
-      const emailExist = await this.staffModel.findOne({
-        email: CreateStaffDto.email,
-      });
-      const numberExist = await this.staffModel.findOne({
-        contactNumber: CreateStaffDto.contactNumber,
-      });
-      if (emailExist || numberExist) {
-        return new ConflictException('email or contact number already exist');
-      }
-      const staff = await this.staffModel.create(CreateStaffDto);
-      if (!staff) return new InternalServerErrorException("can't create staff");
-      return staff;
-    } catch (err) {
-      throw new Error(err.message);
-    }
-  }
-  async staffLogin(loginStaffdto: loginStaffdto) {
-    try {
-      const staff = await this.staffModel.findOne({
-        userName: loginStaffdto.userName,
-        password: loginStaffdto.password,
-      });
-      if (!staff) {
-        return new UnauthorizedException('username and pasword doesnot match');
-      }
-      const payload = loginStaffdto;
-      return {
-        access_token: await this.Jwtservice.signAsync(payload),
-      };
-    } catch (err) {}
-  }
+  // async staffSignup(CreateStaffDto: CreateStaffDto) {
+  //   try {
+  //     const emailExist = await this.staffModel.findOne({
+  //       email: CreateStaffDto.email,
+  //     });
+  //     const numberExist = await this.staffModel.findOne({
+  //       contactNumber: CreateStaffDto.contactNumber,
+  //     });
+  //     if (emailExist || numberExist) {
+  //       return new ConflictException('email or contact number already exist');
+  //     }
+  //     const staff = await this.staffModel.create(CreateStaffDto);
+  //     if (!staff) return new InternalServerErrorException("can't create staff");
+  //     return staff;
+  //   } catch (err) {
+  //     throw new Error(err.message);
+  //   }
+  // }
+  // async staffLogin(loginStaffdto: loginStaffdto) {
+  //   try {
+  //     const staff = await this.staffModel.findOne({
+  //       userName: loginStaffdto.userName,
+  //       password: loginStaffdto.password,
+  //     });
+  //     if (!staff) {
+  //       return new UnauthorizedException('username and pasword doesnot match');
+  //     }
+  //     const payload = loginStaffdto;
+  //     return {
+  //       access_token: await this.Jwtservice.signAsync(payload),
+  //     };
+  //   } catch (err) {}
+  // }
   //--------patient auth-------
   async patientSignup(CreatePatientDto: CreatePatientDto) {
     try {

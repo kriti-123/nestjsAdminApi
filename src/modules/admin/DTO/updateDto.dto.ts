@@ -1,20 +1,19 @@
-// src/app/modules/admin/dto/create-admin.dto.ts
-
 import {
   IsString,
   IsEmail,
   IsBoolean,
-  IsArray,
   IsEnum,
   IsOptional,
   IsDateString,
 } from 'class-validator';
-import { Gender, Role } from '../Entities/admin.entity';
-export class CreateAdminDto {
+import { Role } from '../Entities/admin.entity';
+export class UpdateAdminDto {
   @IsString()
+  @IsOptional()
   userName: string;
 
   @IsString()
+  @IsOptional()
   password: string;
 
   @IsString()
@@ -25,22 +24,23 @@ export class CreateAdminDto {
   middleName?: string;
 
   @IsString()
+  @IsOptional()
   lastName: string;
-
-  @IsEnum(Gender)
-  gender: Gender;
 
   @IsDateString()
   @IsOptional()
   dateOfBirth?: Date;
 
   @IsEmail()
+  @IsOptional()
   email: string;
 
   @IsBoolean()
+  @IsOptional()
   isActive: boolean;
 
   @IsString()
+  @IsOptional()
   contactNumber: string;
 
   @IsString()
@@ -48,5 +48,6 @@ export class CreateAdminDto {
   profilePicture?: string;
 
   @IsEnum(Role)
+  @IsOptional()
   roles: Role;
 }

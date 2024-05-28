@@ -1,28 +1,38 @@
 import { InjectModel } from '@nestjs/mongoose';
+import * as bcrypt from 'bcrypt';
 import { Admin } from './Entities/admin.entity';
 import { Model } from 'mongoose';
 import { Staff, Role } from '../staffs/entities/staff.entity';
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+  InternalServerErrorException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { Appointment } from '../patient/Entities/appointment.entity';
+import { CreateAdminDto } from './DTO/createAdmin.dto';
+import { AdminLogin } from './DTO/login.dto';
+import { JwtService } from '@nestjs/jwt';
+import { CURDmongooseService } from 'src/tools/CRUDmongoose.tools';
+import { UpdateStaffDto } from '../staffs/dto/update-staff.dto';
+import { UpdateAdminDto } from './DTO/updateDto.dto';
 @Injectable()
-export class adminService {
+export class adminService extends CURDmongooseService<
+  Admin,
+  CreateAdminDto,
+  UpdateAdminDto
+> {
   constructor(
-    @InjectModel(Admin.name) private adminModel: Model<Admin>,
-    @InjectModel(Staff.name) private staffModel: Model<Staff>,
-    @InjectModel(Appointment.name) private appointmentModel: Model<Appointment>,
-  ) {}
-  async getAdminProfile(id: string) {
-    try {
-      const admin = await this.adminModel.findById(id);
-      if (!admin) {
-        throw new HttpException('Admin not found', HttpStatus.NOT_FOUND);
-      }
-      return admin;
-    } catch (error) {
-      throw new HttpException('Invalid admin ID', HttpStatus.BAD_REQUEST);
-    }
+    private Jwtservice: JwtService,
+    @InjectModel(Admin.name) public adminModel: Model<Admin>,
+    @InjectModel(Staff.name) public staffModel: Model<Staff>,
+    @InjectModel(Appointment.name) public appointmentModel: Model<Appointment>,
+  ) {
+    super(adminModel);
   }
-  //------staff Operation API------------
+  // I have used curdmongoose only the curd for admin and for other api i used the admin service is it
   async getstaffProfile(id: string) {
     try {
       const staff = await this.staffModel.findById(id);

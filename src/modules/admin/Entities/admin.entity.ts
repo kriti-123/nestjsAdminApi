@@ -42,14 +42,14 @@ export class Admin extends Document {
   @Prop({ default: true })
   isActive: boolean;
 
-  @Prop({ required: true, default: [] })
-  contactNumber: string[];
+  @Prop({ required: true, default: null })
+  contactNumber: string;
 
   @Prop({ default: null })
   profilePicture?: string;
 
-  @Prop({ type: [String], default: [] })
-  roles: Role[];
+  @Prop({ type: String, default: null })
+  roles: Role;
 
   @Prop({ type: Date, default: Date.now })
   LastLoginAt: Date;

@@ -11,36 +11,7 @@ import { PatientLogin } from '../patient/DTO/login.dto';
 @Controller('auth')
 export class authController {
   constructor(private authService: authService) {}
-  @Post('signup')
-  async signup(@Body() createDto: CreateAdminDto) {
-    return this.authService.signup(createDto);
-    // return createDto;
-  }
-  @Post('login')
-  async login(@Body() loginDto: AdminLogin) {
-    return this.authService.signin(loginDto);
-  }
-  @UseGuards(AuthGuard)
-  @Get('profile')
-  getProfile() {
-    return 'hhj';
-  }
 
-  //-----------staff auth-------------
-  @Post('staff/signup')
-  createStaff(@Body() CreateStaffDto: CreateStaffDto) {
-    return this.authService.staffSignup(CreateStaffDto);
-  }
-
-  @Post('staff/login')
-  loginStaff(@Body() loginDto: loginStaffdto) {
-    return this.authService.staffLogin(loginDto);
-  }
-  @UseGuards(AuthGuard)
-  @Get('staff/profile')
-  getpro() {
-    return 'opopo';
-  }
   //--------patient auth-----------
   @Post('patient/signup')
   createPatient(@Body() CreatePatientDto: CreatePatientDto) {

@@ -42,8 +42,8 @@ export class Staff extends Document {
   @Prop({ default: true })
   isActive: boolean;
 
-  @Prop({ required: true, default: [] })
-  contactNumber: string[];
+  @Prop({ required: true })
+  contactNumber: string;
 
   @Prop({ default: null })
   profilePicture?: string;

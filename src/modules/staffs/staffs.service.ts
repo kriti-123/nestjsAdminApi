@@ -6,13 +6,20 @@ import { Staff } from './entities/staff.entity';
 import { Patient } from '../patient/Entities/patient.entity';
 import { updateMedicationDto } from '../patient/DTO/updateMedication.dto';
 import { Model } from 'mongoose';
+import { CURDmongooseService } from 'src/tools/CRUDmongoose.tools';
 
 @Injectable()
-export class StaffsService {
+export class StaffsService extends CURDmongooseService<
+  Staff,
+  CreateStaffDto,
+  UpdateStaffDto
+> {
   constructor(
     @InjectModel(Patient.name) private patientModel: Model<Patient>,
-    @InjectModel(Staff.name) private staffModel: Model<Staff>,
-  ) {}
+    @InjectModel(Staff.name) public staffModel: Model<Staff>,
+  ) {
+    super(staffModel);
+  }
   // async getProfile(id: string) {}
   async updateMedication(
     updateMedication: updateMedicationDto,
