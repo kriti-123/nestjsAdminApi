@@ -3,11 +3,22 @@ import { createAppointmentDto } from './DTO/appointmentCreate.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Appointment } from './Entities/appointment.entity';
 import { Model } from 'mongoose';
+import { CURDmongooseService } from 'src/tools/CRUDmongoose.tools';
+import { Patient } from './Entities/patient.entity';
+import { CreatePatientDto } from './DTO/createPatient.dto';
+import { UpdatePatientDto } from './DTO/UpdatePatientDto.dto';
 @Injectable()
-export class patientService {
+export class patientService extends CURDmongooseService<
+  Patient,
+  CreatePatientDto,
+  UpdatePatientDto
+> {
   constructor(
+    @InjectModel(Patient.name) public patientModel: Model<Patient>,
     @InjectModel(Appointment.name) private appointmentModel: Model<Appointment>,
-  ) {}
+  ) {
+    super(patientModel);
+  }
   async createAppointment(createAppointmentDto: createAppointmentDto) {
     try {
       const appointment =

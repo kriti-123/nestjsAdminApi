@@ -10,17 +10,27 @@ export class CURDmongooseService<T extends Document, CreateDto, UpdateDto> {
 
   async create(data: CreateDto): Promise<T> {
     try {
-      return this.model.create(data);
-    } catch (err) {}
+      return await this.model.create(data);
+    } catch (err) {
+      throw new InternalServerErrorException();
+    }
   }
 
   async get(id: string) {
-    const data = await this.model.findById(id);
-    return data;
+    try {
+      const data = await this.model.findById(id);
+      return data;
+    } catch (err) {
+      throw new InternalServerErrorException();
+    }
   }
   async findOne(data) {
-    console.log(data, 'findone method data');
-    return await this.model.findOne(data);
+    try {
+      console.log(data, 'findone method data');
+      return await this.model.findOne(data);
+    } catch (err) {
+      throw new InternalServerErrorException();
+    }
   }
 
   async delete(id: string) {

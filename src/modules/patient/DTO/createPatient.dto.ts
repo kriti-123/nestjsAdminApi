@@ -85,9 +85,9 @@ export class CreatePatientDto {
   @Type(() => Address)
   address: Address;
 
-  @ValidateNested()
-  @Type(() => MedicalHistoryDto)
-  medicalHistory: MedicalHistoryDto;
+  // @ValidateNested()
+  // @Type(() => MedicalHistoryDto)
+  // medicalHistory: MedicalHistoryDto;
 
   @IsMongoId()
   @IsOptional()
